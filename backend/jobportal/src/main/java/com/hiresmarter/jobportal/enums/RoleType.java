@@ -1,4 +1,4 @@
-package com.hiresmarter.jobportal.common.enums;
+package com.hiresmarter.jobportal.enums;
 
 public enum RoleType {
     ADMIN,
