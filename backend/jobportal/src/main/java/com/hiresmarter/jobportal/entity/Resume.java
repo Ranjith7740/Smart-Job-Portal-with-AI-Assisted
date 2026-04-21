@@ -29,5 +29,11 @@ public class Resume extends BaseEntity {
     @Column(length = 3000)
     private String feedback;
 
+    @Column(length = 1000)
+    private String matchedSkills;
+
+    @Column(length = 1000)
+    private String missingSkills;
+
     private boolean isActive;
 }
