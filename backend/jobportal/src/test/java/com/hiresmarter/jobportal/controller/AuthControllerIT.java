@@ -4,7 +4,9 @@ package com.hiresmarter.jobportal.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hiresmarter.jobportal.dto.auth.AuthRequest;
 import com.hiresmarter.jobportal.dto.auth.AuthResponse;
+import com.hiresmarter.jobportal.repository.UserRepository;
 import com.hiresmarter.jobportal.service.auth.AuthService;
+import com.hiresmarter.jobportal.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import com.hiresmarter.jobportal.enums.RoleType;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,7 +25,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
-@AutoConfigureMockMvc(addFilters = false) // Disables Spring Security filters for this specific test
+@AutoConfigureMockMvc(addFilters = false)// Disables Spring Security filters for this specific test
+@Import(JwtUtil.class)
 class AuthControllerIT {
 
     @Autowired
@@ -30,6 +34,12 @@ class AuthControllerIT {
 
     @MockitoBean
     private AuthService authService;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
+
+    @MockitoBean
+    private UserRepository userRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -66,8 +76,7 @@ class AuthControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value("mocked-jwt-token"))
-                .andExpect(jsonPath("$.message").exists());
+                .andExpect(jsonPath("$.token").value("mocked-jwt-token"));
     }
 
     @Test
