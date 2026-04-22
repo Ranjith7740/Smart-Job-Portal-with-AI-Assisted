@@ -48,4 +48,14 @@ public class ApplicationController {
         return ResponseEntity.ok(
                 applicationService.getApplicationsForJob(jobId));
     }
+    @GetMapping("/filter")
+    public ResponseEntity<List<Application>> filterCandidates(
+            @RequestParam Long jobId,
+            @RequestParam(required = false) ApplicationStatus status,
+            @RequestParam(required = false) Double minScore,
+            @RequestParam(required = false) String skill) {
+
+        // Calling the searchCandidates method you just shared
+        return ResponseEntity.ok(applicationService.searchCandidates(jobId, status, minScore, skill));
+    }
 }

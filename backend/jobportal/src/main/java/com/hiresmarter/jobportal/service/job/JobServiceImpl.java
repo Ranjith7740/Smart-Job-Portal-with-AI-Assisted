@@ -5,6 +5,7 @@ import com.hiresmarter.jobportal.entity.Job;
 import com.hiresmarter.jobportal.exception.ResourceNotFoundException;
 import com.hiresmarter.jobportal.repository.JobRepository;
 
+import com.hiresmarter.jobportal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,12 +23,28 @@ public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
 
+    // 1. Add UserRepository to your dependencies
+    private final UserRepository userRepository;
+
     @Override
     @CacheEvict(value = {"jobs"}, allEntries = true)
     public Job createJob(Job job) {
         log.info("Creating new job posting: {}", job.getTitle());
+
+        // 1. Get the Authentication object
+        var auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+
+        // 2. Direct cast to your User entity (since you put the 'user' object in the filter)
+        if (auth.getPrincipal() instanceof com.hiresmarter.jobportal.entity.User recruiter) {
+            job.setRecruiter(recruiter);
+            log.info("Linked job to recruiter: {}", recruiter.getEmail());
+        } else {
+            log.error("Principal is not an instance of User. Type found: {}", auth.getPrincipal().getClass().getName());
+            throw new ResourceNotFoundException("Recruiter authentication failed");
+        }
+
         Job savedJob = jobRepository.save(job);
-        log.info("Job created successfully with ID: {}. Cache 'jobs' evicted.", savedJob.getId());
+        log.info("Job created successfully with ID: {}", savedJob.getId());
         return savedJob;
     }
 

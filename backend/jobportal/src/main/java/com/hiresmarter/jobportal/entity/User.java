@@ -1,6 +1,7 @@
 package com.hiresmarter.jobportal.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hiresmarter.jobportal.enums.RoleType;
 import com.hiresmarter.jobportal.enums.UserStatus;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class User extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password; // BCrypt hashed
 
     @Enumerated(EnumType.STRING)
@@ -41,11 +43,14 @@ public class User extends BaseEntity {
     /* Relationships */
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Application> applications;
 
     @OneToMany(mappedBy = "recruiter")
+    @JsonIgnore
     private List<Job> jobs;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Resume> resumes;
 }
