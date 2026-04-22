@@ -44,7 +44,7 @@ public class ResumeController {
     public ResponseEntity<Resume> analyzeResume(
             @PathVariable Long resumeId,
             @RequestBody String jobDescription) {
-        
+
         return ResponseEntity.ok(resumeService.analyzeResumeForJob(resumeId, jobDescription));
     }
 
