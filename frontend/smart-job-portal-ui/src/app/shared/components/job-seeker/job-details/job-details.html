@@ -1,0 +1,26 @@
+<div class="container" *ngIf="job">
+
+  <mat-card>
+    <mat-card-title>{{ job.title }}</mat-card-title>
+
+    <mat-card-content>
+      <p><strong>Required Skills:</strong></p>
+      <p>{{ job.requiredSkills }}</p>
+
+      <p><strong>Job Description:</strong></p>
+      <p>{{ job.description }}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button
+              color="primary"
+              (click)="apply()">
+        Apply to Job
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <p class="success" *ngIf="message">{{ message }}</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+</div>

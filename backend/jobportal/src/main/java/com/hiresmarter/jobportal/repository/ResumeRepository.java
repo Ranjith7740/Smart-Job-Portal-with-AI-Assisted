@@ -14,6 +14,5 @@ public interface ResumeRepository extends JpaRepository<Resume, Long> {
     List<Resume> findByUser(User user);
 
     Optional<Resume> findByUserAndIsActiveTrue(User user);
-    @Query("SELECT AVG(r.score) FROM Resume r WHERE r.score IS NOT NULL")
-    Double getGlobalAverageScore();
+
 }

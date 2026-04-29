@@ -1,6 +1,8 @@
 package com.hiresmarter.jobportal.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,8 +28,17 @@ public class Job extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruiter_id", nullable = false)
+    @JsonIgnoreProperties({
+            "resumes",
+            "jobs",
+            "applications",
+            "hibernateLazyInitializer",
+            "handler",
+            "password" // Safety first!
+    })
     private User recruiter;
 
     @OneToMany(mappedBy = "job")
+    @JsonIgnore
     private List<Application> applications;
 }

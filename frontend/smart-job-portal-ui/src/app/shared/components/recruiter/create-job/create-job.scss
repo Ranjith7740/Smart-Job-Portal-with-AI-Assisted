@@ -1,0 +1,133 @@
+// Layout Variables
+$primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+$slate-dark: #1e293b;
+$slate-light: #64748b;
+$input-bg: #f8fafc;
+
+.container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 48px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+
+  h2 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: $slate-dark;
+    margin-bottom: 40px;
+    letter-spacing: -0.05em;
+    text-align: left;
+    
+    // Subtle accent line
+    &::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 6px;
+      background: $primary-gradient;
+      border-radius: 3px;
+      margin-top: 12px;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  // Refined Angular Material Form Field Styling
+  ::ng-deep .mat-form-field {
+    .mat-form-field-flex {
+      background-color: $input-bg !important;
+      border-radius: 12px !important;
+      padding: 0.75rem 1.25rem 0 !important;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    &.mat-focused .mat-form-field-flex {
+      background-color: #ffffff !important;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .mat-form-field-underline {
+      display: none; // Cleaner modern look
+    }
+
+    .mat-form-field-label {
+      color: $slate-light;
+      font-weight: 500;
+    }
+  }
+
+  // Large Textarea refinement
+  textarea[matInput] {
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  // High-Level Submit Button
+  button[mat-raised-button] {
+    height: 56px;
+    margin-top: 32px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: $primary-gradient;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover:not([disabled]) {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
+      filter: brightness(1.05);
+    }
+
+    &:disabled {
+      background: #e2e8f0;
+      color: #94a3b8;
+    }
+  }
+
+  mat-progress-bar {
+    margin-top: 24px;
+    border-radius: 8px;
+    height: 6px;
+  }
+
+  // Status Notifications
+  .success, .error {
+    margin-top: 24px;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .success {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+  }
+
+  .error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -25,16 +25,19 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     long countByJob(Job job);
     long countByStatus(ApplicationStatus status);
 
-    @Query("""
-    SELECT a FROM Application a
-    JOIN a.user u
-    JOIN Resume r ON r.user = u
-    WHERE a.job.id = :jobId
-      AND r.isActive = true
-      AND (:status IS NULL OR a.status = :status)
-      AND (:minScore IS NULL OR r.score >= :minScore)
-      AND (:skill IS NULL OR LOWER(CAST(r.extractedText AS string)) LIKE LOWER(CONCAT('%', :skill, '%')))
-      """)
+    // Add this to your interface
+    boolean existsByJobIdAndUserId(Long jobId, Long userId);
+
+    @Query("SELECT AVG(a.score) FROM Application a WHERE a.score IS NOT NULL")
+    Double getGlobalAverageScore();
+
+    @Query("SELECT DISTINCT a FROM Application a " +
+            "JOIN FETCH a.user u " +
+            "LEFT JOIN FETCH u.resumes r " +
+            "WHERE a.job.id = :jobId " +
+            "  AND (:status IS NULL OR a.status = :status) " +
+            "  AND (:minScore IS NULL OR a.score >= :minScore) " + // Changed r.score to a.score
+            "  AND (:skill IS NULL OR LOWER(CAST(r.extractedText AS string)) LIKE LOWER(CONCAT('%', :skill, '%')))")
     List<Application> filterCandidates(
             @Param("jobId") Long jobId,
             @Param("status") ApplicationStatus status,

@@ -1,0 +1,48 @@
+<mat-toolbar color="primary">
+
+  <span style="font-weight: 500; cursor: pointer"
+        routerLink="/">
+    HireSmarter
+  </span>
+
+  <span class="spacer"></span>
+
+  <!-- JOB SEEKER -->
+  <button mat-button
+          *ngIf="role === 'JOB_SEEKER'"
+          routerLink="/job-seeker">
+    Jobs
+  </button>
+  <button mat-button
+        *ngIf="role === 'JOB_SEEKER'"
+        routerLink="/job-seeker/resume">
+  Resume
+</button>
+
+  <!-- RECRUITER -->
+  <button mat-button
+          *ngIf="role === 'RECRUITER'"
+          routerLink="/recruiter">
+    Recruiter Dashboard
+  </button>
+  <button mat-button
+        *ngIf="role === 'RECRUITER'"
+        routerLink="/recruiter/create-job">
+  Create Job
+</button>
+
+  <!-- ADMIN -->
+  <button mat-button
+          *ngIf="role === 'ADMIN'"
+          routerLink="/admin">
+    Admin Dashboard
+  </button>
+
+  <!-- LOGOUT -->
+  <button mat-button
+          *ngIf="authService.isLoggedIn()"
+          (click)="logout()">
+    Logout
+  </button>
+
+</mat-toolbar>

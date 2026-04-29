@@ -1,0 +1,36 @@
+<div class="container">
+
+  <h2>Upload Resume</h2>
+
+  <input type="file"
+         accept=".pdf"
+         (change)="onFileSelected($event)">
+
+  <br><br>
+
+  <button mat-raised-button
+          color="primary"
+          (click)="upload()"
+          [disabled]="loading">
+    Upload
+  </button>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <p class="success" *ngIf="message">{{ message }}</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <h3>Your Resume Versions</h3>
+
+  <mat-card *ngFor="let resume of resumes">
+    <mat-card-content>
+      <p><strong>ID:</strong> {{ resume.id }}</p>
+      <p><strong>Status:</strong>
+        <span [style.color]="resume.active ? 'green' : 'gray'">
+          {{ resume.active ? 'ACTIVE' : 'INACTIVE' }}
+        </span>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+</div>

@@ -1,0 +1,133 @@
+// Brand Variables
+$primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+$surface-white: #ffffff;
+$bg-soft: #f8fafc;
+$text-main: #1e293b;
+$text-muted: #64748b;
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: calc(100vh - 72px); // Adjusts for the toolbar height
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
+              radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), $bg-soft);
+
+  mat-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 48px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: $surface-white;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      color: $text-main;
+      margin-bottom: 32px;
+      letter-spacing: -1px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    // High-Level Outline Overrides
+    ::ng-deep .mat-form-field-appearance-outline {
+      .mat-form-field-outline {
+        color: rgba(203, 213, 225, 0.6); // Soft border color
+      }
+
+      &.mat-focused .mat-form-field-outline-thick {
+        color: #6366f1 !important; // Indigo focus
+      }
+
+      .mat-form-field-label {
+        color: $text-muted;
+      }
+
+      // Slightly rounder inputs
+      .mat-form-field-outline-start,
+      .mat-form-field-outline-end {
+        border-radius: 12px !important;
+      }
+    }
+
+    // Error Container with smooth animation
+    .error-container {
+      background-color: rgba(239, 68, 68, 0.08);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 8px 0;
+      animation: fadeIn 0.3s ease;
+
+      mat-error {
+        font-size: 0.85rem;
+        text-align: center;
+        display: block;
+      }
+    }
+
+    // Premium Action Button
+    button[mat-raised-button] {
+      height: 52px;
+      margin-top: 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0.2px;
+      background: $primary-gradient;
+      color: white;
+      transition: all 0.25s ease;
+
+      &:hover:not([disabled]) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        filter: brightness(1.1);
+      }
+
+      &:disabled {
+        background: #e2e8f0;
+        color: #94a3b8;
+      }
+    }
+
+    // Footer Links
+    .auth-footer {
+      text-align: center;
+      margin-top: 32px;
+      color: $text-muted;
+      font-size: 0.95rem;
+
+      a {
+        color: #6366f1;
+        font-weight: 700;
+        text-decoration: none;
+        margin-left: 5px;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #4f46e5;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Simple Fade animation for errors
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

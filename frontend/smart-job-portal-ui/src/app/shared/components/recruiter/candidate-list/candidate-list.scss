@@ -1,0 +1,160 @@
+// Variables
+$primary-indigo: #6366f1;
+$ai-gradient: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+$slate-900: #0f172a;
+$slate-600: #475569;
+$slate-200: #e2e8f0;
+
+// 1. Filter Card Styling
+.filter-card {
+  margin-bottom: 32px;
+  padding: 24px !important;
+  border-radius: 16px !important;
+  background: #ffffff;
+  border: 1px solid $slate-200 !important;
+
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    button[mat-raised-button] {
+      border-radius: 8px;
+      padding: 0 24px;
+      background: $primary-indigo;
+    }
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+    padding: 0 12px !important;
+  }
+}
+
+// 2. Main Container
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: $slate-900;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+}
+
+// 3. Candidate Card with AI Section
+.candidate-card {
+  margin-bottom: 24px;
+  border-radius: 20px !important;
+  border: 1px solid $slate-200 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04) !important;
+  overflow: hidden;
+
+  mat-card-header {
+    margin-bottom: 16px;
+    mat-card-title {
+      font-size: 1.4rem !important;
+      font-weight: 700 !important;
+      color: $slate-900;
+    }
+    mat-card-subtitle {
+      color: $primary-indigo;
+      font-weight: 500;
+    }
+  }
+
+  .info-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 16px;
+    
+    p {
+      margin: 0;
+      color: $slate-600;
+      font-size: 0.95rem;
+      strong { color: $slate-900; margin-right: 4px; }
+    }
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid $slate-200;
+    margin: 20px 0;
+  }
+
+  // AI ANALYSIS SECTION (The "High Level" Part)
+  .ai-section {
+    background: $ai-gradient;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    position: relative;
+
+    h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #7c3aed;
+      margin-bottom: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+
+      &::before {
+        content: '✨';
+        margin-right: 8px;
+      }
+    }
+
+    p {
+      margin-bottom: 12px;
+      line-height: 1.5;
+      font-size: 0.95rem;
+      color: $slate-600;
+
+      strong {
+        color: $slate-900;
+        font-weight: 600;
+      }
+
+      span {
+        font-size: 1.2rem;
+        font-weight: 800;
+      }
+    }
+  }
+
+  .no-resume {
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+    background: #f1f5f9;
+    border-radius: 8px;
+  }
+
+  // Status Pipeline Update
+  .pipeline {
+    margin-top: 10px;
+    mat-form-field {
+      width: 250px;
+    }
+  }
+}
+
+// Error handling
+.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+}

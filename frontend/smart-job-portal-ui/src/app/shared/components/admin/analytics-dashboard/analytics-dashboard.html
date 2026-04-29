@@ -1,0 +1,38 @@
+<div class="container">
+
+  <h2>Admin Analytics Dashboard</h2>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <div class="stats-grid" *ngIf="stats">
+
+    <mat-card class="stat-card">
+      <h3>Total Users</h3>
+      <p>{{ stats.totalUsers }}</p>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <h3>Total Jobs</h3>
+      <p>{{ stats.totalJobs }}</p>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <h3>Total Applications</h3>
+      <p>{{ stats.totalApplications }}</p>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <h3>Average Resume Score</h3>
+      <p>{{ stats.averageResumeScore | number:'1.0-2' }}</p>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <h3>Hiring Conversion Rate</h3>
+      <p>{{ stats.hiringRate * 100 | number:'1.0-2' }}%</p>
+    </mat-card>
+
+  </div>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+</div>

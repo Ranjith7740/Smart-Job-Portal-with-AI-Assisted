@@ -1,5 +1,6 @@
 package com.hiresmarter.jobportal.service.resume;
 
+import com.hiresmarter.jobportal.dto.ai.AIResult;
 import com.hiresmarter.jobportal.entity.Resume;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,5 +14,6 @@ public interface ResumeService {
 
     Resume getActiveResume(Long userId);
 
-    Resume analyzeResumeForJob(Long resumeId, String jobDescription);
+    // Change return type from Resume to AIResult
+    AIResult analyzeResumeForJob(Long resumeId, String jobDescription);
 }

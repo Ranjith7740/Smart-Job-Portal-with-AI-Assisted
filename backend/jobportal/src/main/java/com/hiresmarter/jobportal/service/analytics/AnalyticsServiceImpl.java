@@ -41,7 +41,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
             stats.put("totalApplications", totalApps);
 
             // Quality Metrics
-            Double avgScore = resumeRepository.getGlobalAverageScore();
+            Double avgScore = applicationRepository.getGlobalAverageScore();
             if (avgScore == null) {
                 log.warn("Average resume score calculation returned null (check if any scores exist)");
             }

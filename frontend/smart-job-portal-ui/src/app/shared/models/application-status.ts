@@ -1,0 +1,8 @@
+export const APPLICATION_STATUSES = [
+  'APPLIED',
+  'SCREENING',
+  'INTERVIEW',
+  'OFFER',
+  'HIRED',
+  'REJECTED'
+];

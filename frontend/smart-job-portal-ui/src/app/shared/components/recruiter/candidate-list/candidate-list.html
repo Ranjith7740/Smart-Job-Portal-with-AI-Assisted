@@ -1,0 +1,122 @@
+<mat-card class="filter-card">
+  <form [formGroup]="filterForm" class="filter-form">
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">All</mat-option>
+          <mat-option value="APPLIED">APPLIED</mat-option>
+          <mat-option value="SCREENING">SCREENING</mat-option>
+          <mat-option value="INTERVIEW">INTERVIEW</mat-option>
+          <mat-option value="OFFER">OFFER</mat-option>
+          <mat-option value="HIRED">HIRED</mat-option>
+          <mat-option value="REJECTED">REJECTED</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Min Score</mat-label>
+        <input matInput type="number" formControlName="minScore" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Skill</mat-label>
+        <input
+          matInput
+          placeholder="Java, Spring, SQL"
+          formControlName="skill"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="filter-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="applyFilters()"
+      >
+        Apply
+      </button>
+      <button mat-button type="button" (click)="resetFilters()">Reset</button>
+    </div>
+  </form>
+</mat-card>
+
+<div class="container">
+  <h2 *ngIf="job">Candidates for: {{ job.title }}</h2>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <mat-card *ngFor="let app of applications" class="candidate-card">
+    <mat-card-header>
+      <mat-card-title>{{ app.user.name }}</mat-card-title>
+      <mat-card-subtitle>{{ app.user.email }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="info-row">
+        <p><strong>Status:</strong> {{ app.status }}</p>
+        <p>
+          <strong>Applied On:</strong>
+          {{ app.appliedDate | date : "mediumDate" }}
+        </p>
+      </div>
+      <div style="background: #f0f0f0; padding: 5px; font-size: 10px;border: 1px dashed #ccc;">
+        Debug: Resumes found: {{ app.user.resumes?.length || 0 }} | First Resume
+        Active: {{ app.user.resumes?.[0]?.active }}
+      </div>
+
+      <hr />
+
+      <div *ngIf="getActiveResume(app) as resume" class="ai-section">
+        <h3>AI Analysis</h3>
+        <p>
+          <strong>AI Score:</strong>
+          <span [style.color]="getScoreColor(resume.score)">
+            {{ resume.score ?? "N/A" }}
+          </span>
+        </p>
+
+        <p *ngIf="resume.matchedSkills">
+          <strong>Matched Skills:</strong> {{ resume.matchedSkills }}
+        </p>
+
+        <p *ngIf="resume.missingSkills">
+          <strong>Missing Skills:</strong> {{ resume.missingSkills }}
+        </p>
+
+        <p *ngIf="resume.feedback">
+          <strong>AI Feedback:</strong><br />
+          {{ resume.feedback }}
+        </p>
+      </div>
+
+      <div *ngIf="!getActiveResume(app)" class="no-resume">
+        <em>No active resume uploaded</em>
+      </div>
+
+      <hr />
+
+      <div class="pipeline">
+        <mat-form-field appearance="outline">
+          <mat-label>Update Status</mat-label>
+          <mat-select
+            [value]="app.status"
+            (selectionChange)="updateStatus(app.id, $event.value)"
+          >
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <p *ngIf="!loading && applications.length === 0">
+    No candidates have applied yet.
+  </p>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+</div>

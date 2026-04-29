@@ -1,0 +1,39 @@
+<div class="container">
+
+  <h2>Create Job</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <mat-form-field class="full-width">
+      <mat-label>Job Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Job Description</mat-label>
+      <textarea matInput rows="5"
+                formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Required Skills</mat-label>
+      <input matInput
+             placeholder="Java, Spring Boot, MySQL"
+             formControlName="requiredSkills">
+    </mat-form-field>
+
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="loading">
+      Create Job
+    </button>
+
+  </form>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <p class="success" *ngIf="message">{{ message }}</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+</div>

@@ -67,29 +67,15 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Resume analyzeResumeForJob(Long resumeId, String jobDescription) {
-        log.info("Analyzing Resume ID: {} against provided Job Description", resumeId);
+    public AIResult analyzeResumeForJob(Long resumeId, String jobDescription) {
+        log.info("Analyzing Resume ID: {} for Job Description", resumeId);
 
         Resume resume = resumeRepository.findById(resumeId)
-                .orElseThrow(() -> {
-                    log.error("Analysis failed: Resume ID {} not found", resumeId);
-                    return new ResourceNotFoundException("Resume not found");
-                });
+                .orElseThrow(() -> new ResourceNotFoundException("Resume not found"));
 
-        // Hand off to AI Service
-        AIResult aiResult = aiService.analyzeResume(resume.getExtractedText(), jobDescription);
-        log.info("AI Analysis result received: Score {}", aiResult.getScore());
-
-        // Map AI results to the Entity
-        resume.setScore(aiResult.getScore());
-        resume.setFeedback(aiResult.getFeedback());
-        resume.setMatchedSkills(aiResult.getMatchedSkills());
-        resume.setMissingSkills(aiResult.getMissingSkills());
-
-        Resume updated = resumeRepository.save(resume);
-        log.info("Resume ID: {} updated with AI metrics successfully.", updated.getId());
-
-        return updated;
+        // 1. Just call the AI Service and return the result
+        // Don't try to save anything to the 'resume' object here
+        return aiService.analyzeResume(resume.getExtractedText(), jobDescription);
     }
 
     @Override

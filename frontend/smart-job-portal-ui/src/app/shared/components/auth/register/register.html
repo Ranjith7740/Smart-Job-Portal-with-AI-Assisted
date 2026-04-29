@@ -1,0 +1,53 @@
+<div class="auth-container">
+  <mat-card>
+    <h2>Create Account</h2>
+
+    <form [formGroup]="form" (ngSubmit)="register()">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="name" placeholder="John Doe">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="example@mail.com">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+          Please enter a valid email
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="form.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+
+      <div class="error-container" *ngIf="errorMessage">
+        <mat-error>{{ errorMessage }}</mat-error>
+      </div>
+
+      <button 
+        mat-raised-button 
+        color="primary" 
+        class="full-width" 
+        type="submit"
+        [disabled]="form.invalid || loading">
+        <span *ngIf="!loading">Register</span>
+        <span *ngIf="loading">Creating Account...</span>
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Already have an account? 
+      <a routerLink="/login">Login here</a>
+    </p>
+  </mat-card>
+</div>

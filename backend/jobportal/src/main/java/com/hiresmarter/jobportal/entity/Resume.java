@@ -1,6 +1,7 @@
 package com.hiresmarter.jobportal.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,10 +12,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class Resume extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @Column(nullable = false)
@@ -24,16 +27,6 @@ public class Resume extends BaseEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String extractedText;
 
-    private Double score;
-
-    @Column(length = 3000)
-    private String feedback;
-
-    @Column(length = 1000)
-    private String matchedSkills;
-
-    @Column(length = 1000)
-    private String missingSkills;
 
     private boolean isActive;
 }

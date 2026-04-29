@@ -1,0 +1,84 @@
+// Variables for easy branding
+$primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+$glass-bg: rgba(255, 255, 255, 0.1);
+$glass-border: rgba(255, 255, 255, 0.2);
+$transition-speed: 0.3s;
+
+mat-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  height: 72px !important; // Slightly taller for a premium feel
+  background: $primary-gradient !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  // Branding Logo
+  span[routerLink] {
+    font-size: 1.5rem;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+    background: white;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform $transition-speed ease;
+
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  // Navigation Buttons
+  button[mat-button] {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
+
+    &:hover {
+      background-color: $glass-bg !important;
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 0 1px $glass-border;
+      transform: translateY(-1px);
+    }
+
+    // Active state (optional: requires routerLinkActive)
+    &.active-link {
+      background-color: white !important;
+      color: #6366f1 !important;
+    }
+  }
+
+  // Special styling for Logout to separate it visually
+  button:last-child {
+    margin-left: 1.5rem;
+    border: 1px solid $glass-border;
+    
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.2) !important; // Subtle red tint
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  mat-toolbar {
+    padding: 0 1rem;
+    height: 64px !important;
+    
+    button[mat-button] {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+}

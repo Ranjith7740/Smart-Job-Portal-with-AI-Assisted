@@ -41,11 +41,12 @@ public class ResumeController {
         return ResponseEntity.ok(resumeService.getActiveResume(userId));
     }
     @PostMapping("/{resumeId}/analyze")
-    public ResponseEntity<Resume> analyzeResume(
+    public ResponseEntity<AIResult> analyzeResume(
             @PathVariable Long resumeId,
             @RequestBody String jobDescription) {
 
-        return ResponseEntity.ok(resumeService.analyzeResumeForJob(resumeId, jobDescription));
+        AIResult result = resumeService.analyzeResumeForJob(resumeId, jobDescription);
+        return ResponseEntity.ok(result);
     }
 
 }

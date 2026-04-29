@@ -32,33 +32,47 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader("Authorization");
 
+        // 1. If no header, just move to the next filter
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHeader.substring(7);
+        try {
+            String token = authHeader.substring(7);
+            Claims claims = jwtUtil.extractClaims(token);
 
-        Claims claims = jwtUtil.extractClaims(token);
-        String email = claims.getSubject();
-        String role = claims.get("role", String.class);
+            String email = claims.getSubject();
+            String role = claims.get("role", String.class);
 
-        userRepository.findByEmail(email).ifPresent(user -> {
+            // Debug: Check if extraction worked
+            System.out.println("JWT Filter - Email: " + email + ", Role: " + role);
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            user,
-                            null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + role))
-                    );
+            if (email != null && role != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                userRepository.findByEmail(email).ifPresentOrElse(user -> {
 
-            authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request));
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    user,
+                                    null,
+                                    List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                            );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        });
+                    authentication.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("JWT Filter - Auth successful for: " + email);
+
+                }, () -> System.out.println("JWT Filter - User not found in DB: " + email));
+            }
+        } catch (Exception e) {
+            // This is critical: Catching expired or malformed tokens
+            System.err.println("JWT Filter Error: " + e.getMessage());
+            // Optionally: response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+        }
 
         filterChain.doFilter(request, response);
     }

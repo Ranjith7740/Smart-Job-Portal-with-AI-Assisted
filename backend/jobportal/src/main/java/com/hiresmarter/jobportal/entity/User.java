@@ -2,6 +2,8 @@ package com.hiresmarter.jobportal.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hiresmarter.jobportal.enums.RoleType;
 import com.hiresmarter.jobportal.enums.UserStatus;
 import jakarta.persistence.*;
@@ -22,6 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends BaseEntity {
 
     @Column(nullable = false)
@@ -51,7 +54,7 @@ public class User extends BaseEntity {
     @JsonIgnore
     private List<Job> jobs;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Resume> resumes;
 }
